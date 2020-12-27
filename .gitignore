@@ -59,4 +59,4 @@ buck-out/
 /ios/Pods/
 
 
-android\app\debug.keystore
+android/app/debug.keystore
