@@ -1,3 +1,4 @@
 import Login from './authornication/Login';
-
-export {Login};
+import SignUp from './authornication/Signup';
+console.log(SignUp);
+export {Login,SignUp};

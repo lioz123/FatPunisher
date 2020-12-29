@@ -12,7 +12,7 @@ interface Props{
 const Link:FC<Props> = ( props)=> {
     const {colors} = useTheme();
     return (
-        <TouchableOpacity onPress={event => props.onPress}>
+        <TouchableOpacity onPress={event => {props.onPress()}}>
         <Text style={{...styles.Link,color:colors.primary}}>
         {props.children}
         </Text>

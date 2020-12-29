@@ -4,43 +4,44 @@ import React, { Component, useEffect, useState } from 'react';
 import {  View } from 'react-native';
 import {  Button, TextInput,HelperText } from 'react-native-paper';
 import { Icon } from 'react-native-paper/lib/typescript/components/Avatar/Avatar';
-import { CheckPassword, Compare, InputResponse } from '../../../utils/FormChecker';
+import { CheckFields, CheckPassword, Compare, InputResponse } from '../../../utils/FormChecker';
 interface DeliverText{
     onChangeText:(text:string)=>void;
     password:string;
     confirmedPassword?:string;
+    label?:string;
   }
 
+
+
+
+    
  
-const Password:React.FC<DeliverText> =(props)=>{
-      console.log(`password:${props.password}`);
+ 
+ 
+const Password:React.FC<DeliverText> =(props:DeliverText)=>{
+        
        const [secure,setSecure] =useState(true);
        const [response,setResponse] = useState<InputResponse>({success:true}); 
        useEffect(()=>{
-         if(!props.password){
-           console.log("password is undefined");
-           return;
+         if(props.password==''){
+           return setResponse({success:true});
          }
+         let comparePassword:InputResponse ={success:true};
         if(props.confirmedPassword){
-          const compareResponse = Compare(props.password,props.confirmedPassword);
-          if(compareResponse.success!=response.success){
-            return setResponse(compareResponse);
-          }
-
+          comparePassword = Compare(props.password,props.confirmedPassword);
         }
-          
-          const checkResponse = CheckPassword(props.password);
-          if(checkResponse.success!=response.success){
-            return setResponse(checkResponse);
-          }
+          CheckFields(setResponse,[  CheckPassword(props.password),comparePassword],response);
+      ;
+        
        },[props.password,props.confirmedPassword]);
-
+      
 
     return (
         
      <View>
             <TextInput 
-        label="Password"
+        label={props.label?props.label:"Password"}
         secureTextEntry={secure}
         onChangeText={props.onChangeText}
         value={props.password}

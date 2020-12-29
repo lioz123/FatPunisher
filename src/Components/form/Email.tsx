@@ -3,7 +3,7 @@
 import React, {  useEffect, useState } from 'react';
 import {  View } from 'react-native';
 import {   TextInput,HelperText } from 'react-native-paper';
-import {CheckEmail,  InputResponse} from '../../../utils/FormChecker';
+import {CheckEmail,  CheckFields,  InputResponse} from '../../../utils/FormChecker';
 interface DeliverText{
     onChangeText:(text:string)=>void;
     value:string;
@@ -12,13 +12,11 @@ const Email:React.FC<DeliverText> =(props)=>{
        const [response,setResponse] =useState<InputResponse>({success:true});
        useEffect(()=>{
            if(!props.value||props.value==''){
-               return;
+               return setResponse({success:true});
            }
-           console.log("mail is:  " + CheckEmail(props.value));
-            const checkResponse = CheckEmail(props.value);
-           if(response.success!=checkResponse.success){
-                setResponse(checkResponse);
-           }
+
+           CheckFields(setResponse,[CheckEmail(props.value)],response);
+ 
        },[props.value]);
     return (
         

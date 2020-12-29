@@ -5,18 +5,18 @@ import { StyleSheet, View } from 'react-native';
 import FormWrapper from './FormWrapper';
 import { TextInput,Button,Text, Portal, HelperText} from 'react-native-paper';
 import { AlignRaw, Email, Link, Password, Spacer} from '../../Components';
-
+import { CheckEmail, CheckFields, CheckPassword, Compare, InputResponse } from '../../../utils/FormChecker';
+import { RouteProp } from '@react-navigation/native';
+import { RootStackParamList } from '../../../App';
 import { StackNavigationProp } from '@react-navigation/stack';
 
-import { RouteProp } from '@react-navigation/native';
-
-type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Login'>;
+type ProfileScreenRouteProp = RouteProp<RootStackParamList, 'Signup'>;
 
 
 
 type ProfileScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'Login'
+  'Signup'
 >;
 
 type Props = {
@@ -24,21 +24,20 @@ type Props = {
   route: ProfileScreenRouteProp;
 
 };
-import { CheckEmail, CheckFields, CheckPassword, InputResponse } from '../../../utils/FormChecker';
-import { RootStackParamList } from '../../../App';
-const Login:FC<Props> = (props) =>{
-    
+const SignUp:FC<Props> = (props) =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
+    const [confirmPassword,setConfirmPassword] = useState('');
+
     const [inputReponse,setInputResponse] = useState<InputResponse>({success:true});
 
-    const LoginButtonClicked = (email:string,password:string)=>{
+    const SignUpButtonClicked = (email:string,password:string,confirmPassword:string)=>{
         const emailResponse= CheckEmail(email);
         const passwordResponse =CheckPassword(password);
-        if(CheckFields(setInputResponse,[emailResponse,passwordResponse],inputReponse)){
+        const confirmedPasswordResponse = Compare(confirmPassword,password);
+        if(CheckFields(setInputResponse,[emailResponse,passwordResponse,confirmedPasswordResponse],inputReponse)){
             // login
         }
-        
         
      }
     return (
@@ -49,23 +48,21 @@ const Login:FC<Props> = (props) =>{
             onChangeText={setEmail}
             />
             <Password password={password} onChangeText={setPassword}/>
+            <Password password={confirmPassword} confirmedPassword={password} onChangeText={setConfirmPassword}/>
 
-                <View style={{alignSelf:'flex-end'}}>
-                <Link onPress={()=>{}} >
-                Forgot your password?
-                </Link>
-                </View>
-                
+      
                <Spacer/>
-            <Button mode="contained" >Login</Button>
+            <Button mode="contained" onPress={()=>{SignUpButtonClicked(email,password,confirmPassword)}}>Sign Up</Button>
             <HelperText type="error" visible={!inputReponse.success}>
                 Check your fields
                 </HelperText>          
 
             <AlignRaw>
-                <Text>Don't have an account yet? </Text>
-                <Link onPress={()=>{props.navigation.navigate("Signup")}}>
-                   Sign up
+                <Text>Already have an account? </Text>
+                <Link onPress={()=>{
+                    props.navigation.navigate("Login");
+                }}>
+                    Login
                 </Link>
             </AlignRaw>
             </FormWrapper>
@@ -83,4 +80,4 @@ const styles = StyleSheet.create({
     }
 });
 
-export default Login;
+export default SignUp;

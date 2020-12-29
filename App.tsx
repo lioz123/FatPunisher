@@ -7,20 +7,20 @@
  */
 
 import React from 'react';
-import {
-
-  View,
-
-} from 'react-native';
 
 import {NavigationContainer} from '@react-navigation/native'
 import {createStackNavigator} from '@react-navigation/stack';
-import {Login} from './src/screens'
+import {Login, SignUp} from './src/screens'
 import {CreateCustomAppBar} from './src/Components';
 
+//route type
+type RootStackParamList = {
+  Login:undefined;
+  Signup:undefined;
 
-import {Appbar} from 'react-native-paper';
-import { Header } from 'react-native/Libraries/NewAppScreen';
+
+};
+
 
 
 // declaring globals
@@ -33,11 +33,12 @@ globalThis.__APP_NAME__ ="Fat Punisher";
 
 //Navigation
 
-const Stack = createStackNavigator();
+const Stack = createStackNavigator<RootStackParamList>();
 
 // creating Appbars
 const LoginAppBar = CreateCustomAppBar("Login");
 
+//
 
 const App = () => {
   return (
@@ -47,7 +48,10 @@ const App = () => {
         header:LoginAppBar
       }}
       >
-        
+
+
+        <Stack.Screen name="Signup" component={SignUp}/>
+
         <Stack.Screen 
         name="Login"
          component={Login}
@@ -60,3 +64,4 @@ const App = () => {
 
 
 export default App;
+export type {RootStackParamList};
