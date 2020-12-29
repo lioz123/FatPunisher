@@ -1,32 +1,46 @@
 // This Components is the used to replace the navigation bar from ract native navigation using the header options
 
-import React, { FC, useState } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import {Form}  from '../../wrappers';
-import { TextInput } from 'react-native-paper';
-import {Spacer} from '../../Components';
-
+import React, {  useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import FormWrapper from './FormWrapper';
+import { TextInput,Button,Text} from 'react-native-paper';
+import { AlignRaw, Email, Link, Password, Spacer} from '../../Components';
 const Login = () =>{
     const [email,setEmail] = useState('');
     const [password,setPassword] = useState('');
 
     return (
-        <Form action={()=>{}} actionName="Login" moveToScreenAction={()=>{}} moveToScreenName="Sign Up">
-            <TextInput  style={styles.TextInput}
-            label="Email" 
-            
+      
+            <FormWrapper>
+           
+           <Email   
             value={email}
             onChangeText={setEmail}
             />
-            <Spacer/>
-            <TextInput 
-            label="Password" 
-            secureTextEntry={true}
-            value={password}
+            <Password password={password} onChangeText={setPassword}/>
+
+                <View style={{alignSelf:'flex-end'}}>
+                <Link onPress={()=>{}} >
+                Forgot your password?
+                </Link>
+                </View>
+                
+
+         
+               <Spacer/>
+            <Button mode="contained" >Login</Button>
+            <Spacer space={5}/>                
+
+            <AlignRaw>
+                <Text>Don't have an account yet? </Text>
+                <Link onPress={()=>{}}>
+                   Sign up
+                </Link>
+            </AlignRaw>
            
-            onChangeText={setPassword}
-            />
-        </Form>
+            </FormWrapper>
+
+          
     );
 }
 const styles = StyleSheet.create({
@@ -36,4 +50,5 @@ const styles = StyleSheet.create({
         justifyContent:"center"
     }
 });
+
 export default Login;

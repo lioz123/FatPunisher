@@ -8,39 +8,15 @@ import { color } from 'react-native-reanimated';
 import { AlignRaw, Spacer } from '../../Components';
 import {Link} from '../../Components';
 
-interface Props {
-    action:()=>void;
-    actionName:string;
-    moveToScreenName:string,
-    moveToScreenAction:()=>void,
 
-}
-
-const Form:FC<Props> = (props) =>{
+const Form:FC = (props) =>{
     const {colors} = useTheme();
     return (
         <View style={styles.container}>
             <Title style={{...styles.title, color:colors.primary}} >{globalThis.__APP_NAME__}</Title>
-            <Spacer/>
-          
-
+            <Spacer/>  
            {props.children}
-           <Spacer/>
-            <View style={styles.footer}>
-            <Button mode="contained" onPress={props.action}>{props.actionName}</Button>
-            <Spacer space={5}/>
-            <AlignRaw>
-                <Text>Don't have an account yet? </Text>
-                <Link onPress={props.moveToScreenAction}>
-                    {props.moveToScreenName}
-                </Link>
-            </AlignRaw>
-           
-         
-            
-              
-            </View>
-           
+                
         </View>
        
     );
@@ -49,7 +25,7 @@ const Form:FC<Props> = (props) =>{
 const styles = StyleSheet.create({
     container:{
         
-        padding:50,
+        padding:35,
         flex:1
 
 
